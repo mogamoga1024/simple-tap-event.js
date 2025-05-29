@@ -3,7 +3,7 @@ class TapEvent {
     static #touchMap = new Map();
     static #eventMap = new Map();
 
-    static add(element, listener) {
+    static on(element, listener) {
         const handleTouchStart = e => {
             for (const touch of e.changedTouches) {
                 this.#touchMap.set(touch.identifier, {x: touch.clientX, y: touch.clientY});
@@ -36,7 +36,7 @@ class TapEvent {
         element.addEventListener("touchcancel", handleTouchCancel);
     }
 
-    static remove(element, listener) {
+    static off(element, listener) {
         // todo
     }
 };
