@@ -1,35 +1,44 @@
 
 class TapEvent {
-    static #touchMap = new Map();
-    static #eventMap = new Map();
+    static #contextMap = new Map();
 
     static on(element, listener) {
+        const touchMap = new Map();
+        const eventMap = new Map();
+
         const handleTouchStart = e => {
             for (const touch of e.changedTouches) {
-                this.#touchMap.set(touch.identifier, {x: touch.clientX, y: touch.clientY});
+                touchMap.set(touch.identifier, {x: touch.clientX, y: touch.clientY});
             }
         };
         const handleTouchEnd = e => {
             for (const touch of e.changedTouches) {
-                const prevTouch = this.#touchMap.get(touch.identifier);
+                const prevTouch = touchMap.get(touch.identifier);
                 if (prevTouch === undefined) {
                     continue;
                 }
-                this.#touchMap.delete(touch.identifier);
+                touchMap.delete(touch.identifier);
                 if (prevTouch.x === touch.clientX && prevTouch.y === touch.clientY) {
                     // todo Tap Event
+                    alert("aaa")
                 }
             }
         };
         const handleTouchCancel = e => {
             for (const touch of e.changedTouches) {
-                this.#touchMap.delete(touch.identifier);
+                touchMap.delete(touch.identifier);
             }
         };
 
-        this.#eventMap.set(element, {
+        eventMap.set(element, {
             handleTouchStart, handleTouchEnd, handleTouchCancel
         });
+
+        const context = {
+            touchMap: new Map(),
+            eventMap: new Map()
+        };
+        this.#contextMap.set(listener, context);
 
         element.addEventListener("touchstart", handleTouchStart);
         element.addEventListener("touchend", handleTouchEnd);
