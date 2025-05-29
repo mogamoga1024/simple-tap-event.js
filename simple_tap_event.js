@@ -3,6 +3,13 @@ class TapEvent {
     static #contextMap = new Map();
 
     static on(element, listener) {
+        if (typeof listener !== "function") {
+            return;
+        }
+        if (this.#contextMap.has(listener)) {
+            return;
+        }
+
         const touchMap = new Map();
         const eventMap = new Map();
 
@@ -19,8 +26,11 @@ class TapEvent {
                 }
                 touchMap.delete(touch.identifier);
                 if (prevTouch.x === touch.clientX && prevTouch.y === touch.clientY) {
-                    // todo Tap Event
-                    alert("aaa")
+                    const data = {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    };
+                    listener(data);
                 }
             }
         };
