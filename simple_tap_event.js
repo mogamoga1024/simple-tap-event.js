@@ -49,6 +49,16 @@
         }
 
         static off(element, listener) {
+            if (listener === undefined) {
+                if (!contextMap.has(element)) {
+                    return;
+                }
+                for (const listener of contextMap.get(element).keys()) {
+                    TapEvent.off(element, listener);
+                }
+                return;
+            }
+
             if (!hasContext(element, listener)) {
                 return;
             }
