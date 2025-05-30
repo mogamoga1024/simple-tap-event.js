@@ -1,14 +1,11 @@
 
 (function() {
     class TapEvent {
-        // WeakMap<Element, Map<listener, context>>
-        static #contextMap = new WeakMap();
-
         static on(element, listener) {
             if (typeof listener !== "function") {
                 return;
             }
-            if (this.#contextMap.has(listener)) {
+            if (hasContext(element, listener)) {
                 return;
             }
 
@@ -45,7 +42,7 @@
                 touchMap: new Map(),
                 handleTouchStart, handleTouchEnd, handleTouchCancel
             };
-            this.#contextMap.set(listener, context);
+            setContext(element, listener, context);
 
             element.addEventListener("touchstart", handleTouchStart);
             element.addEventListener("touchend", handleTouchEnd);
@@ -55,7 +52,22 @@
         static off(element, listener) {
             // todo
         }
-    };
+    }
+
+    // WeakMap<Element, Map<listener, context>>
+    const contextMap = new WeakMap();
+    function setContext(element, listener, context) {
+        if (!contextMap.has(element)) {
+            contextMap.set(element, new Map());
+        }
+        contextMap.get(element).set(listener, context);
+    }
+    function getContext(element, listener) {
+        return contextMap.get(element)?.get(listener);
+    }
+    function hasContext(element, listener) {
+        return contextMap.has(element) && contextMap.get(element).has(listener);
+    }
 
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = TapEvent;
