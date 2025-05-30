@@ -39,7 +39,6 @@
             };
 
             const context = {
-                touchMap: new Map(),
                 handleTouchStart, handleTouchEnd, handleTouchCancel
             };
             setContext(element, listener, context);
@@ -50,7 +49,21 @@
         }
 
         static off(element, listener) {
-            // todo
+            if (!hasContext(element, listener)) {
+                return;
+            }
+
+            const listenerContextMap = contextMap.get(element);
+
+            const {handleTouchStart, handleTouchEnd, handleTouchCancel} = listenerContextMap.get(listener);
+            element.removeEventListener("touchstart", handleTouchStart);
+            element.removeEventListener("touchend", handleTouchEnd);
+            element.removeEventListener("touchcancel", handleTouchCancel);
+
+            listenerContextMap.delete(listener);
+            if (listenerContextMap.size === 0) {
+                contextMap.delete(element);
+            }
         }
     }
 
