@@ -65,6 +65,10 @@
                 contextMap.delete(element);
             }
         }
+
+        static destroy() {
+            // todo
+        }
     }
 
     // WeakMap<Element, Map<listener, context>>
