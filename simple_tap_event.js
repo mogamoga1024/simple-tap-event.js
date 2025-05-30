@@ -11,7 +11,6 @@ class TapEvent {
         }
 
         const touchMap = new Map();
-        const eventMap = new Map();
 
         const handleTouchStart = e => {
             for (const touch of e.changedTouches) {
@@ -40,13 +39,9 @@ class TapEvent {
             }
         };
 
-        eventMap.set(element, {
-            handleTouchStart, handleTouchEnd, handleTouchCancel
-        });
-
         const context = {
             touchMap: new Map(),
-            eventMap: new Map()
+            handleTouchStart, handleTouchEnd, handleTouchCancel
         };
         this.#contextMap.set(listener, context);
 
