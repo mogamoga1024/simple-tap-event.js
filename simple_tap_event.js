@@ -83,7 +83,6 @@
         }
     }
 
-    // WeakMap<Element, Map<listener, context>>
     const contextMap = new WeakMap();
     function setContext(element, listener, context) {
         if (!contextMap.has(element)) {
