@@ -77,7 +77,9 @@
         }
 
         static destroy() {
-            // todo
+            for (const element of contextMap.keys()) {
+                TapEvent.off(element);
+            }
         }
     }
 
