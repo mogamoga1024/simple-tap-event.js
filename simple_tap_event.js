@@ -1,56 +1,66 @@
 
-class TapEvent {
-    static #contextMap = new Map();
+(function() {
+    class TapEvent {
+        // WeakMap<Element, Map<listener, context>>
+        static #contextMap = new WeakMap();
 
-    static on(element, listener) {
-        if (typeof listener !== "function") {
-            return;
-        }
-        if (this.#contextMap.has(listener)) {
-            return;
-        }
-
-        const touchMap = new Map();
-
-        const handleTouchStart = e => {
-            for (const touch of e.changedTouches) {
-                touchMap.set(touch.identifier, {x: touch.clientX, y: touch.clientY});
+        static on(element, listener) {
+            if (typeof listener !== "function") {
+                return;
             }
-        };
-        const handleTouchEnd = e => {
-            for (const touch of e.changedTouches) {
-                const prevTouch = touchMap.get(touch.identifier);
-                if (prevTouch === undefined) {
-                    continue;
+            if (this.#contextMap.has(listener)) {
+                return;
+            }
+
+            const touchMap = new Map();
+
+            const handleTouchStart = e => {
+                for (const touch of e.changedTouches) {
+                    touchMap.set(touch.identifier, {x: touch.clientX, y: touch.clientY});
                 }
-                touchMap.delete(touch.identifier);
-                if (prevTouch.x === touch.clientX && prevTouch.y === touch.clientY) {
-                    const data = {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    };
-                    listener(data);
+            };
+            const handleTouchEnd = e => {
+                for (const touch of e.changedTouches) {
+                    const prevTouch = touchMap.get(touch.identifier);
+                    if (prevTouch === undefined) {
+                        continue;
+                    }
+                    touchMap.delete(touch.identifier);
+                    if (prevTouch.x === touch.clientX && prevTouch.y === touch.clientY) {
+                        const data = {
+                            clientX: touch.clientX,
+                            clientY: touch.clientY
+                        };
+                        listener(data);
+                    }
                 }
-            }
-        };
-        const handleTouchCancel = e => {
-            for (const touch of e.changedTouches) {
-                touchMap.delete(touch.identifier);
-            }
-        };
+            };
+            const handleTouchCancel = e => {
+                for (const touch of e.changedTouches) {
+                    touchMap.delete(touch.identifier);
+                }
+            };
 
-        const context = {
-            touchMap: new Map(),
-            handleTouchStart, handleTouchEnd, handleTouchCancel
-        };
-        this.#contextMap.set(listener, context);
+            const context = {
+                touchMap: new Map(),
+                handleTouchStart, handleTouchEnd, handleTouchCancel
+            };
+            this.#contextMap.set(listener, context);
 
-        element.addEventListener("touchstart", handleTouchStart);
-        element.addEventListener("touchend", handleTouchEnd);
-        element.addEventListener("touchcancel", handleTouchCancel);
+            element.addEventListener("touchstart", handleTouchStart);
+            element.addEventListener("touchend", handleTouchEnd);
+            element.addEventListener("touchcancel", handleTouchCancel);
+        }
+
+        static off(element, listener) {
+            // todo
+        }
+    };
+
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = TapEvent;
     }
-
-    static off(element, listener) {
-        // todo
+    else if (typeof window !== 'undefined') {
+        window.TapEvent = TapEvent;
     }
-};
+})();
