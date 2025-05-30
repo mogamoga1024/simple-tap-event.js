@@ -28,7 +28,7 @@
                             clientX: touch.clientX,
                             clientY: touch.clientY
                         };
-                        listener(data);
+                        listener.call(element, data);
                     }
                 }
             };
