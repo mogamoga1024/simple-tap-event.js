@@ -17,6 +17,7 @@
                 }
             };
             const handleTouchEnd = e => {
+                const points = [];
                 for (const touch of e.changedTouches) {
                     const prevTouch = touchMap.get(touch.identifier);
                     if (prevTouch === undefined) {
@@ -24,14 +25,13 @@
                     }
                     touchMap.delete(touch.identifier);
                     if (prevTouch.x === touch.clientX && prevTouch.y === touch.clientY) {
-                        element.dispatchEvent(new CustomEvent("tap", {
-                            detail: {
-                                clientX: touch.clientX,
-                                clientY: touch.clientY
-                            }
-                        }));
+                        points.push({
+                            clientX: touch.clientX,
+                            clientY: touch.clientY
+                        });
                     }
                 }
+                element.dispatchEvent(new CustomEvent("tap", {detail: points}));
             };
             const handleTouchCancel = e => {
                 for (const touch of e.changedTouches) {
