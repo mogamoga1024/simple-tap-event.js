@@ -31,9 +31,10 @@
                         });
                     }
                 }
-                listener.call(element, points);
-                e.preventDefault();
-                e.stopPropagation();
+                listener.call(element, points, {
+                    preventDefault: e.preventDefault.bind(e),
+                    stopPropagation: e.stopPropagation.bind(e)
+                });
             };
             const handleTouchCancel = e => {
                 for (const touch of e.changedTouches) {
