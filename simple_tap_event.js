@@ -94,9 +94,6 @@
         }
         contextMap.get(element).set(listener, context);
     }
-    function getContext(element, listener) {
-        return contextMap.get(element)?.get(listener);
-    }
     function hasContext(element, listener) {
         return contextMap.has(element) && contextMap.get(element).has(listener);
     }
