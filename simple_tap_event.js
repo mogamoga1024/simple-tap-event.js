@@ -24,11 +24,12 @@
                     }
                     touchMap.delete(touch.identifier);
                     if (prevTouch.x === touch.clientX && prevTouch.y === touch.clientY) {
-                        const data = {
-                            clientX: touch.clientX,
-                            clientY: touch.clientY
-                        };
-                        listener.call(element, data);
+                        element.dispatchEvent(new CustomEvent("tap", {
+                            detail: {
+                                clientX: touch.clientX,
+                                clientY: touch.clientY
+                            }
+                        }));
                     }
                 }
             };
@@ -37,15 +38,19 @@
                     touchMap.delete(touch.identifier);
                 }
             };
+            const handleTap = e => {
+                listener.call(element, e.detail);
+            };
 
             const context = {
-                handleTouchStart, handleTouchEnd, handleTouchCancel
+                handleTouchStart, handleTouchEnd, handleTouchCancel, handleTap
             };
             setContext(element, listener, context);
 
             element.addEventListener("touchstart", handleTouchStart);
             element.addEventListener("touchend", handleTouchEnd);
             element.addEventListener("touchcancel", handleTouchCancel);
+            element.addEventListener("tap", handleTap);
         }
 
         static off(element, listener) {
@@ -65,10 +70,11 @@
 
             const listenerContextMap = contextMap.get(element);
 
-            const {handleTouchStart, handleTouchEnd, handleTouchCancel} = listenerContextMap.get(listener);
+            const {handleTouchStart, handleTouchEnd, handleTouchCancel, handleTap} = listenerContextMap.get(listener);
             element.removeEventListener("touchstart", handleTouchStart);
             element.removeEventListener("touchend", handleTouchEnd);
             element.removeEventListener("touchcancel", handleTouchCancel);
+            element.removeEventListener("tap", handleTap);
 
             listenerContextMap.delete(listener);
             if (listenerContextMap.size === 0) {
