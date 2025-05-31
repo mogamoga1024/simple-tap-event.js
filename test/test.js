@@ -11,3 +11,10 @@ const lb = () => {
 
 TapEvent.on(a, la);
 TapEvent.on(b, lb);
+
+// ---
+
+const link = document.querySelector("#link");
+TapEvent.on(link, () => {
+    console.log("hogehoge");
+});

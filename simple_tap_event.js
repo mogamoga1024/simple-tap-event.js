@@ -31,26 +31,24 @@
                         });
                     }
                 }
-                element.dispatchEvent(new CustomEvent("tap", {detail: points}));
+                listener.call(element, points);
+                e.preventDefault();
+                e.stopPropagation();
             };
             const handleTouchCancel = e => {
                 for (const touch of e.changedTouches) {
                     touchMap.delete(touch.identifier);
                 }
             };
-            const handleTap = e => {
-                listener.call(element, e.detail);
-            };
 
             const context = {
-                handleTouchStart, handleTouchEnd, handleTouchCancel, handleTap
+                handleTouchStart, handleTouchEnd, handleTouchCancel
             };
             setContext(element, listener, context);
 
             element.addEventListener("touchstart", handleTouchStart);
             element.addEventListener("touchend", handleTouchEnd);
             element.addEventListener("touchcancel", handleTouchCancel);
-            element.addEventListener("tap", handleTap);
         }
 
         static off(element, listener) {
@@ -70,11 +68,10 @@
 
             const listenerContextMap = contextMap.get(element);
 
-            const {handleTouchStart, handleTouchEnd, handleTouchCancel, handleTap} = listenerContextMap.get(listener);
+            const {handleTouchStart, handleTouchEnd, handleTouchCancel} = listenerContextMap.get(listener);
             element.removeEventListener("touchstart", handleTouchStart);
             element.removeEventListener("touchend", handleTouchEnd);
             element.removeEventListener("touchcancel", handleTouchCancel);
-            element.removeEventListener("tap", handleTap);
 
             listenerContextMap.delete(listener);
             if (listenerContextMap.size === 0) {
