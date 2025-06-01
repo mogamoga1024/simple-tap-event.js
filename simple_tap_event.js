@@ -1,6 +1,14 @@
 
 (function() {
     class TapEvent {
+        static #maxDistance = 0;
+        static set maxDistance(val) {
+            this.#maxDistance = Number(val);
+        }
+        static get maxDistance() {
+            return this.#maxDistance;
+        }
+
         static on(element, listener) {
             if (typeof listener !== "function") {
                 return;
@@ -24,17 +32,20 @@
                         continue;
                     }
                     touchMap.delete(touch.identifier);
-                    if (prevTouch.x === touch.clientX && prevTouch.y === touch.clientY) {
+                    const distanceSquared = (prevTouch.x - touch.clientX) ** 2 + (prevTouch.y - touch.clientY) ** 2;
+                    if (distanceSquared <= this.#maxDistance ** 2) {
                         points.push({
                             clientX: touch.clientX,
                             clientY: touch.clientY
                         });
                     }
                 }
-                listener.call(element, points, {
-                    preventDefault: e.preventDefault.bind(e),
-                    stopPropagation: e.stopPropagation.bind(e)
-                });
+                if (points.length > 0) {
+                    listener.call(element, points, {
+                        preventDefault: e.preventDefault.bind(e),
+                        stopPropagation: e.stopPropagation.bind(e)
+                    });
+                }
             };
             const handleTouchCancel = e => {
                 for (const touch of e.changedTouches) {
