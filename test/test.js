@@ -10,18 +10,30 @@ function drawPoint(points) {
     elClientY.innerText = points[0].clientY;
 }
 
+const elStopPropagation = document.querySelector("#stop-propagation");
+const elPreventDefault = document.querySelector("#prevent-default");
+function controlEvent(event) {
+    if (elStopPropagation.checked) {
+        event.stopPropagation();
+    }
+    if (elPreventDefault.checked) {
+        event.preventDefault();
+    }
+}
+
 const lisA = (points, event) => {
     drawPoint(points);
+    controlEvent(event)
     alert("A");
 };
 const lisB = (points, event) => {
-    event.stopPropagation();
     drawPoint(points);
+    controlEvent(event)
     alert("B");
 };
 const lisLink = (points, event) => {
-    event.preventDefault();
     drawPoint(points);
+    controlEvent(event)
     alert("Link");
 };
 
