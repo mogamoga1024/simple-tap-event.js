@@ -77,20 +77,24 @@
             listenerContextMap.delete(listener);
             if (listenerContextMap.size === 0) {
                 contextMap.delete(element);
+                elementSet.delete(element);
             }
         }
 
         static destroy() {
-            for (const element of contextMap.keys()) {
+            for (const element of elementSet) {
                 TapEvent.off(element);
             }
+            elementSet.clear();
         }
     }
 
     const contextMap = new WeakMap();
+    const elementSet = new Set();
     function setContext(element, listener, context) {
         if (!contextMap.has(element)) {
             contextMap.set(element, new Map());
+            elementSet.add(element);
         }
         contextMap.get(element).set(listener, context);
     }
