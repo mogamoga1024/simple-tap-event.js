@@ -3,7 +3,8 @@
 A lightweight utility to detect tap gestures on touch devices.  
 It simulates a "tap" by checking whether a finger touches down and lifts up without moving.
 
-> ⚠️ Only works on **touch-enabled** devices.  
+> [!WARNING]
+> Only works on **touch-enabled** devices.  
 > Will not trigger on mouse click or pointer events.
 
 ---
