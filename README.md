@@ -9,7 +9,7 @@ It simulates a "tap" by checking whether a finger touches down and lifts up with
 
 ---
 
-## 🔹 `TapEvent.on(element, listener)`
+## `TapEvent.on(element, listener)`
 
 Registers a tap event listener on a given DOM element.
 
@@ -46,7 +46,7 @@ TapEvent.on(button, (points, { preventDefault, stopPropagation }) => {
 
 ---
 
-## 🔹 `TapEvent.off(element[, listener])`
+## `TapEvent.off(element[, listener])`
 
 Removes previously registered tap listeners from the element.
 
@@ -61,7 +61,7 @@ Removes previously registered tap listeners from the element.
 
 ---
 
-## 🔹 `TapEvent.destroy()`
+## `TapEvent.destroy()`
 
 Unbinds **all tap listeners** from all registered elements.  
 Use this to clean up globally.
