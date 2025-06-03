@@ -12,6 +12,10 @@
 npm install simple-tap-event.js
 ```
 
+```js
+import TapEvent from "simple-tap-event.js";
+```
+
 ### CDN
 
 ```html
@@ -20,33 +24,18 @@ npm install simple-tap-event.js
 
 ---
 
-## 使い方
-
-### 基本的な使い方（グローバル距離設定）
+## 基本的な使い方
 
 ```html
 <button id="my-button">Tap me</button>
 
-<script type="module">
-  import TapEvent from "simple-tap-event.js";
-
-  TapEvent.maxDistance = 10; // ピクセル距離（オプション）
-
+<script>
   const btn = document.getElementById("my-button");
 
-  TapEvent.on(btn, (points, e) => {
+  TapEvent.on(btn, (points) => {
     console.log("タップされた！", points);
-    e.preventDefault();
   });
 </script>
-```
-
-### 個別に距離を設定する
-
-```js
-TapEvent.on(btn, (points) => {
-  console.log("個別距離設定でのタップ", points);
-}, 5); // このリスナーだけ maxDistance = 5 にする
 ```
 
 ---
@@ -102,7 +91,8 @@ TapEvent.on(btn, (points) => {
 
 ### `TapEvent.maxDistance`
 
-グローバルな最大距離（ピクセル）を設定できます。
+グローバルな最大距離（ピクセル）を設定できます。  
+初期値は `0` です。
 
 ```js
 TapEvent.maxDistance = 15;
@@ -110,6 +100,6 @@ TapEvent.maxDistance = 15;
 
 ---
 
-## 📄 ライセンス
+## ライセンス
 
 MIT or WTFLP
