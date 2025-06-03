@@ -9,12 +9,21 @@
             return this.#maxDistance;
         }
 
-        static on(element, listener) {
+        static on(element, listener, maxDistance) {
             if (typeof listener !== "function") {
                 return;
             }
             if (hasContext(element, listener)) {
                 return;
+            }
+
+            let getMaxDistance = undefined;
+            if (maxDistance === undefined) {
+                getMaxDistance = () => this.#maxDistance;
+            }
+            else {
+                const rtnMaxDistance = Number(maxDistance);
+                getMaxDistance = () => rtnMaxDistance;
             }
 
             const touchMap = new Map();
@@ -33,7 +42,7 @@
                     }
                     touchMap.delete(touch.identifier);
                     const distanceSquared = (prevTouch.x - touch.clientX) ** 2 + (prevTouch.y - touch.clientY) ** 2;
-                    if (distanceSquared <= this.#maxDistance ** 2) {
+                    if (distanceSquared <= getMaxDistance() ** 2) {
                         points.push({
                             clientX: touch.clientX,
                             clientY: touch.clientY
