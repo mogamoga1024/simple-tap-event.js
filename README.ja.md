@@ -9,11 +9,11 @@
 ### npm
 
 ```bash
-npm install simple-tap-event.js
+npm install simple-tap-event
 ```
 
 ```js
-import TapEvent from "simple-tap-event.js";
+import TapEvent from "simple-tap-event";
 ```
 
 ### CDN
