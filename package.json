@@ -1,6 +1,6 @@
 {
   "name": "@mogamoga1024/simple-tap-event",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A lightweight library to detect tap events on touch devices.",
   "main": "simple_tap_event.js",
   "scripts": {

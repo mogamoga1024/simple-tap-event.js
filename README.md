@@ -9,11 +9,11 @@ A lightweight and simple JavaScript library for easily handling tap events on to
 ### npm
 
 ```bash
-npm install simple-tap-event
+npm install @mogamoga1024/simple-tap-event
 ```
 
 ```js
-import TapEvent from "simple-tap-event";
+import TapEvent from "@mogamoga1024/simple-tap-event";
 ```
 
 ### CDN
