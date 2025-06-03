@@ -83,8 +83,8 @@ TapEvent.on(btn, (points) => {
   - `eventUtils`: タッチイベントの制御用オブジェクト  
     ```js
     {
-      preventDefault: Function,     // e.preventDefault() 相当
-      stopPropagation: Function     // e.stopPropagation() 相当
+      preventDefault: Function,     // Event.preventDefault() 相当
+      stopPropagation: Function     // Event.stopPropagation() 相当
     }
     ```
 
