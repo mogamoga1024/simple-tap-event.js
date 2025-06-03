@@ -102,4 +102,4 @@ TapEvent.maxDistance = 15;
 
 ## ライセンス
 
-MIT or WTFLP
+MIT or WTFPL

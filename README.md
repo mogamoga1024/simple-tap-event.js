@@ -40,9 +40,9 @@ import TapEvent from "simple-tap-event.js";
 
 ---
 
-## Demo
+## Sample Demo
 
-[Live Demo](https://mogamoga1024.github.io/simple-tap-event.js/sample/sample.html)
+[Sample](https://mogamoga1024.github.io/simple-tap-event.js/sample/sample.html)
 
 ---
 
@@ -50,17 +50,17 @@ import TapEvent from "simple-tap-event.js";
 
 ### TapEvent.on(element, listener, maxDistance?)
 
-Adds a tap event listener to the specified element.
+Adds a tap event to the specified element.
 
-- `element`: The target DOM element  
-- `listener`: A function that is called on tap  
-  It receives the following two arguments:
+- `element`: Target DOM element  
+- `listener`: Function called on tap  
+  Receives the following two arguments:
 
   ```js
   (points, eventUtils) => { ... }
   ```
 
-  - `points`: An array of tap position objects (supports multi-touch)  
+  - `points`: Array of tap position data (supports multi-touch)  
     Example:
     ```js
     [
@@ -69,7 +69,7 @@ Adds a tap event listener to the specified element.
     ]
     ```
 
-  - `eventUtils`: An object to control the touch event  
+  - `eventUtils`: Utility object for controlling the touch event  
     ```js
     {
       preventDefault: Function,     // Equivalent to Event.preventDefault()
@@ -77,30 +77,22 @@ Adds a tap event listener to the specified element.
     }
     ```
 
-- `maxDistance` (optional): Allowed movement distance (in pixels).  
-  If omitted, `TapEvent.maxDistance` is used (default: `0`).
-
----
+- `maxDistance` (optional): Allowed movement distance in pixels.  
+  If omitted, the value of `TapEvent.maxDistance` is used.
 
 ### `TapEvent.off(element, listener?)`
 
-Removes tap events.
+Removes tap event(s).
 
-- If `listener` is omitted, all listeners for the element are removed.
-
----
+- If `listener` is omitted, all listeners registered to the target element are removed.
 
 ### `TapEvent.destroy()`
 
-Removes all registered tap events.
-
----
+Removes all tap events.
 
 ### `TapEvent.maxDistance`
 
-Sets a global maximum movement distance (in pixels).  
-Used when `maxDistance` is not specified in `TapEvent.on`.  
-Default is `0`.
+Sets the global maximum movement distance in pixels.
 
 ```js
 TapEvent.maxDistance = 15;
