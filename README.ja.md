@@ -15,7 +15,7 @@ npm install simple-tap-event.js
 ### CDN
 
 ```html
-<script src="https://unpkg.com/simple-tap-event.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mogamoga1024/simple-tap-event@latest/simple_tap_event.min.js"></script>
 ```
 
 ---
