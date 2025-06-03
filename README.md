@@ -1,84 +1,113 @@
-# 📚 TapEvent API Reference
+# simple-tap-event.js
 
-A lightweight utility to detect tap gestures on touch devices.  
-It simulates a "tap" by checking whether a finger touches down and lifts up without moving.
-
-> [!WARNING]
-> Only works on **touch-enabled** devices.  
-> Will not trigger on mouse click or pointer events.
+A lightweight and simple JavaScript library for easily handling tap events on touch devices.
 
 ---
 
-## `TapEvent.on(element, listener)`
+## Installation
 
-Registers a tap event listener on a given DOM element.
+### npm
 
-### Parameters
-
-- `element` (`HTMLElement`)  
-  The target element to observe taps on.
-
-- `listener(points, helpers)` (`function`)  
-  A callback function invoked when a valid tap occurs.  
-  - `points`: An array of tap points:
-    ```js
-    [
-      { clientX: Number, clientY: Number },
-      ...
-    ]
-    ```
-  - `helpers`: Utility functions:
-    ```js
-    {
-      preventDefault: Function,
-      stopPropagation: Function
-    }
-    ```
-
-### Example
+```bash
+npm install simple-tap-event.js
+```
 
 ```js
-TapEvent.on(button, (points, { preventDefault, stopPropagation }) => {
-  preventDefault();
-  console.log("Tapped at", points);
-});
+import TapEvent from "simple-tap-event.js";
+```
+
+### CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@mogamoga1024/simple-tap-event@latest/simple_tap_event.min.js"></script>
 ```
 
 ---
 
-## `TapEvent.off(element[, listener])`
+## Basic Usage
 
-Removes previously registered tap listeners from the element.
+```html
+<button id="my-button">Tap me</button>
 
-### Parameters
+<script>
+  const btn = document.getElementById("my-button");
 
-- `element` (`HTMLElement`)  
-  The target element to remove listeners from.
-
-- `listener` (`function`, optional)  
-  If provided, removes that specific listener only.  
-  If omitted, **removes all listeners** registered on the element.
-
----
-
-## `TapEvent.destroy()`
-
-Unbinds **all tap listeners** from all registered elements.  
-Use this to clean up globally.
+  TapEvent.on(btn, (points) => {
+    console.log("Tapped!", points);
+  });
+</script>
+```
 
 ---
 
-## 🧠 Internals
+## Demo
 
-- Touch coordinates are tracked with `touchstart` and compared at `touchend`.
-- Only exact position matches are considered valid taps (no movement).
-- Listeners are stored in a `WeakMap`, so memory is managed efficiently.
+[Live Demo](https://mogamoga1024.github.io/simple-tap-event.js/sample/sample.html)
 
 ---
 
-## ✅ Good to Know
+## API
 
-- You can call `preventDefault()` and `stopPropagation()` from inside the listener using provided helpers.
-- The `this` context inside the listener refers to the tapped element.
+### TapEvent.on(element, listener, maxDistance?)
+
+Adds a tap event listener to the specified element.
+
+- `element`: The target DOM element  
+- `listener`: A function that is called on tap  
+  It receives the following two arguments:
+
+  ```js
+  (points, eventUtils) => { ... }
+  ```
+
+  - `points`: An array of tap position objects (supports multi-touch)  
+    Example:
+    ```js
+    [
+      { clientX: 120, clientY: 300 },
+      { clientX: 130, clientY: 310 }
+    ]
+    ```
+
+  - `eventUtils`: An object to control the touch event  
+    ```js
+    {
+      preventDefault: Function,     // Equivalent to Event.preventDefault()
+      stopPropagation: Function     // Equivalent to Event.stopPropagation()
+    }
+    ```
+
+- `maxDistance` (optional): Allowed movement distance (in pixels).  
+  If omitted, `TapEvent.maxDistance` is used (default: `0`).
 
 ---
+
+### `TapEvent.off(element, listener?)`
+
+Removes tap events.
+
+- If `listener` is omitted, all listeners for the element are removed.
+
+---
+
+### `TapEvent.destroy()`
+
+Removes all registered tap events.
+
+---
+
+### `TapEvent.maxDistance`
+
+Sets a global maximum movement distance (in pixels).  
+Used when `maxDistance` is not specified in `TapEvent.on`.  
+Default is `0`.
+
+```js
+TapEvent.maxDistance = 15;
+```
+
+---
+
+## License
+
+MIT or WTFPL
